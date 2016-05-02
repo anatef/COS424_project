@@ -1,0 +1,8 @@
+\section{Use case: Movie night prediction}
+After we have a general approach for predicting the rating for user-movie pairs, we want to find for a group of 3 users, one movie that maximizes their predicted ratings. This will be achieved by doing the following steps:
+ \begin{itemize}
+ \item Find groups of 3 users with sufficient overlap of rated movies in our dataset
+ \item Split these movies to training and test datasets
+ \item Apply our prediction model on the training set and then predict for the test set
+ \item Rank the movies according to the sum of predicted ratings and select the movie with the highest ratings sum
+ \end{itemize}

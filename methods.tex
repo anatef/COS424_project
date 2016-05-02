@@ -1,0 +1,34 @@
+\section{Methods}
+\label{sec:methods}
+
+
+\subsection{Datasets}
+Our dataset is called the "MovieLens" dataset~\cite{GroupLens}, and it describes 5-star rating and free-text tagging activity from MovieLens~\cite{MovieLens}, an online movie recommendation service. It contains 20,000,263 ratings and 465,564 tag applications across 27,278 movies. These data were created by 138,493 users between January 09, 1995 and March 31, 2015. This dataset was generated on March 31, 2015.
+
+It consist of structured CSV files, with two main files we need for our project: 1) A rating file that contains pairs of user id and movie id, together with the rating the user gave to the movie. 2) Movies file that contain all the movies ids and additional information on the movie: name, year, and genre. Another file we may use contain all the movies ids and their corresponding IMDB id.
+
+\subsection{Feature selection}
+The prediction will be based on the movies features included in those datasets: name, genre, and year. We will also try to extract additional movies features from other sources, such as IMDB. Another file in the dataset includes tags done by the users regarding the movies. Each tag is typically a single word or short phrase. We will check the option of using the tags as additional feature.
+Additionally, we will conduct a literature survey to understand what features are relvant for our prediction aim.
+
+\subsection{Ratings Prediction}
+\textbf{Known prediction algorithms}
+We found a relevant study of movie recommender systems deomnstrating the use of SVD for movie rating prediction~\cite{Ekstrand:2011:RRR:2043932.2043958}.
+We will also try to predict users ratings of movies using several linear models and regression algorithms we saw in class:
+\begin{itemize}
+\item Support Vector Machine
+\item K-Neareast Neighbours
+\item Random Forest
+\item Preceptron
+\item Logistic Regression
+\item Ridge
+\item Lasso
+\end{itemize}
+We may try additional ones.
+
+\textbf{Users similarity}
+Another approach would be to predict by similarity to other users. For each of the inspected users, we will find the most similar users (e.g. using cosine similarity for ratings), and predict the best movies based on the preferences of the most similar users.
+
+\textbf{Evaluation}
+We will performe 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. We will report the average RMSE and R$^2$ as well as the probability density function of the prediction errors.
+

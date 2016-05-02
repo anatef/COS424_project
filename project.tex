@@ -1,0 +1,66 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{cos424,times}
+%\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{soul,color}
+\usepackage{mathptmx}   % Times + Times-like math symbols
+\usepackage{courier}
+\usepackage{helvet}
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{amsmath}
+\usepackage{enumitem}% http://ctan.org/pkg/enumitem
+\newcommand{\blackone}{\ding{182} }%
+\newcommand{\blacktwo}{\ding{183} }%
+\newcommand{\blackthree}{\ding{184} }%
+\newcommand{\blackfour}{\ding{185} }%
+\newcommand{\blackfive}{\ding{186} }%
+\newcommand{\blacksix}{\ding{187} }%
+
+\title{SocialFlix! binge watching with your friends}
+
+
+\author{
+Anat Fuchs\\
+Lewis-Sigler Institute for Integrative Genomics\\
+Princeton University\\
+\texttt{anatf@princeton.edu} \\
+\And
+Adi Fuchs \\
+Electrical Engineering Department\\
+Princeton University \\
+\texttt{adif@princeton.edu} \\
+}
+
+
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+% 
+\input{intro} 
+% 
+\input{related}
+% 
+\input{methods}
+
+
+\input{usecase}
+% 
+% \input{results}
+% 
+% \input{discussion}
+
+
+%\subsubsection*{Acknowledgments}
+
+\bibliographystyle{ieeetr}
+\bibliography{ref}
+
+\end{document}
