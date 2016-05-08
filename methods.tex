@@ -2,10 +2,35 @@
 \label{sec:methods}
 
 
-\subsection{Datasets}
-Our dataset is called the "MovieLens" dataset~\cite{GroupLens}, and it describes 5-star rating and free-text tagging activity from MovieLens~\cite{MovieLens}, an online movie recommendation service. It contains 20,000,263 ratings and 465,564 tag applications across 27,278 movies. These data were created by 138,493 users between January 09, 1995 and March 31, 2015. This dataset was generated on March 31, 2015.
+\subsection{Feature Extraction}
+In order to analyze the MovieLens dataset, we first extracted several features, for the movies and users seperately. 
 
-It consist of structured CSV files, with two main files we need for our project: 1) A rating file that contains pairs of user id and movie id, together with the rating the user gave to the movie. 2) Movies file that contain all the movies ids and additional information on the movie: name, year, and genre. Another file we may use contain all the movies ids and their corresponding IMDB id.
+\textbf{Movies basic features} 
+\begin{itemize}
+\item Genres binary vector representing all the genres included in the movie. Each movie follows the genre standard of IMDB (Internet Movie Database, www.imdb.com). Each movie belongs to a minimum of one genre and a maximum of five
+\item Average rating by all users
+\item Number of ratings
+\item Ratings standard deviation
+\end{itemize}
+
+\textbf{Users basic features} 
+\begin{itemize}
+\item Age
+\item Gender
+\item Number of ratings
+\item Occupation
+\item Average rating given by the user
+\item Number of ratings
+\item Ratings standard deviation
+\end{itemize}
+
+After the basic extraction of features, we further analyzed the existing features to create additional user features:
+
+\textbf{Users genres preference}
+To represent the user genre prefrence based on his past ratings, we created a score that captures the average rating of a user for each genre: 
+
+\begin{equation} score\_for\_movie\_genre(G_j) = \frac{\sum^5_{i=1}{rating_i\times number\_of\_movie\_rating_i}}{Total\_number\_of\_movies} 
+\end{equation}
 
 \subsection{Feature selection}
 The prediction will be based on the movies features included in those datasets: name, genre, and year. We will also try to extract additional movies features from other sources, such as IMDB. Another file in the dataset includes tags done by the users regarding the movies. Each tag is typically a single word or short phrase. We will check the option of using the tags as additional feature.
