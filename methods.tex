@@ -40,9 +40,7 @@ As suggested by the winners of the \textit{Netflix Prize} in their paper~\cite{b
 \subsection{Selecting representative test sets}
 The recommendation system is based on the scenario of a specific target user. The system will predict movies ratings for this user, and therefore the test dataset is built from the users perpective. We have decided to use our set of extracted features to choose users that will properly span the feature space, and thus be better representatives than complete random selection. 
 
-Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible.
-
-
+Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible. The representative users and their corresponding features are shown here in Table\ref{tab:rep_users}.
 
 \begin{table}
 \begin{center}
@@ -80,23 +78,23 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 \label{tab:rep_users}
 \end{table}
 
-\subsection{Ratings Prediction}
-\textbf{Known prediction algorithms}
-We found a relevant study of movie recommender systems deomnstrating the use of SVD for movie rating prediction~\cite{Ekstrand:2011:RRR:2043932.2043958}.
-We will also try to predict users ratings of movies using several linear models and regression algorithms we saw in class:
-\begin{itemize}
-\item Support Vector Machine
-\item K-Neareast Neighbours
-\item Random Forest
-\item Preceptron
-\item Logistic Regression
-\item Ridge
-\item Lasso
-\end{itemize}
-We may try additional ones.
+\subsection{Clustering}
+
+One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn
+Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
+
+The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead.
+
+The predicted ratings are then beeing used to rank the list of movies in the test set, and we use Normalized discounted cumulative gain (NDCG) to measure the relevance of the recommended movies. The algorithm we used was implemented by Mathieu Blondel~\cite{letorMetrics}. We calculated NDCG@k for $k=\{5, 10, 15, 20\}$, since these numbers represent a reasonable length of movie recommendation list. Most users will find it difficult to pay attention to lists with too many items. We present the results in Figure\ref{} as the NDCG@k averaged on the 10-folds cross validation runs, for each user.
+
+
+\subsection{Cosine Similarity}
 
 \textbf{Users similarity}
 Another approach would be to predict by similarity to other users. For each of the inspected users, we will find the most similar users (e.g. using cosine similarity for ratings), and predict the best movies based on the preferences of the most similar users.
+
+
+\subsection{Matrix Factorization}
 
 \textbf{Evaluation}
 We will performe 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. We will report the average RMSE and R$^2$ as well as the probability density function of the prediction errors.
