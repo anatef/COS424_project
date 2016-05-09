@@ -105,10 +105,7 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn
 Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
 
-The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead.
-
-The predicted ratings are then beeing used to rank the list of movies in the test set, and we use Normalized discounted cumulative gain (NDCG) to measure the relevance of the recommended movies. The algorithm we used was implemented by Mathieu Blondel~\cite{letorMetrics}. We calculated NDCG@k for $k=\{5, 10, 15, 20\}$, since these numbers represent a reasonable length of movie recommendation list. Most users will find it difficult to pay attention to lists with too many items. We present the results in Figure\ref{fig:ndcg} as the NDCG@k averaged on the 10-folds cross validation runs, for each user.
-
+The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead. The predicted ratings are then beeing used to rank the list of movies in the test set.
 
 \subsection{Cosine Similarity}
 
@@ -125,7 +122,7 @@ We define the cosine similarity the following way
 
 For each of the inspected users, we rank the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity} similarity, based on the extracted features.
 We predict user's rating based on the average movie rating of the N most similar users.
-As we will show in \hl{Section} ~\ref{sec:results}, across all 10 tested users, we minimize the average RMSE 0.84 in rating misprediction, using the average of only the six most similar users (a fraction of only 0.1\% of overall users in the database).
+As we will show in~\ref{sec:results}, across all 10 tested users, we minimize the average RMSE 0.84 in rating misprediction, using the average of only the six most similar users (a fraction of only 0.1\% of overall users in the database).
 
 
 \subsection{Matrix Factorization}
