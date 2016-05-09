@@ -27,14 +27,20 @@ In order to analyze the MovieLens dataset, we first extracted several features, 
 After the basic extraction of features, we further analyzed the existing features to create additional user features:
 
 \textbf{Users genres preference}
-To represent the user genre prefrence based on his past ratings, we created a score that captures the average rating of a user for each genre: 
 
+To represent the user genre prefrence based on his past ratings, we created a score that captures the average rating of a user for each genre: 
 \begin{equation} score\_for\_movie\_genre(G_j) = \frac{\sum^5_{i=1}{rating_i\times number\_of\_movie\_rating_i}}{Total\_number\_of\_movies} 
 \end{equation}
+We created a vector of genres prefrences for each user as additional features.
 
-\subsection{Feature selection}
-The prediction will be based on the movies features included in those datasets: name, genre, and year. We will also try to extract additional movies features from other sources, such as IMDB. Another file in the dataset includes tags done by the users regarding the movies. Each tag is typically a single word or short phrase. We will check the option of using the tags as additional feature.
-Additionally, we will conduct a literature survey to understand what features are relvant for our prediction aim.
+\textbf{User specific effect}
+
+As suggested by the winners of the \textit{Netflix Prize} in their paper~\cite{bell2007bellkor}, we created a feature that represnt the user tendency to rate below or above the expected rating. We calculated the average difference of the user ratings from each movie average rating by all the users.
+
+\subsection{Selecting representative test sets}
+The recommendation system is based on the scenario of a specific target user. The system will predict movies ratings for this user, and therefore the test dataset is built from the users perpective. We have decided to use our set of extracted features to choose users that will properly span the feature space, and thus be better representatives than complete random selection. 
+
+Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible.
 
 \subsection{Ratings Prediction}
 \textbf{Known prediction algorithms}
