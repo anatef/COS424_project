@@ -80,6 +80,27 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 
 \subsection{Clustering}
 
+\begin{figure*}[t]
+\begin{tabular}{ l l l}
+  \hspace{2.0cm}(a) & \hspace{4.2cm}(b) & \hspace{4.2cm}(c) \\
+\end{tabular}\\
+\resizebox{6in}{!}{
+  \begin{tabular}{ c c c}
+  \hspace{-0.9cm}
+  \includegraphics[trim={4.7cm 0 1.9cm 0},clip]{figures/ndcg_ratings_num.pdf} 
+  &  
+  \hspace{-0.9cm}
+  \includegraphics[trim={4.7cm 0 1.9cm 0},clip]{figures/ndcg_ratings_avg.pdf} 
+  &
+  \hspace{-0.9cm}
+  \includegraphics[trim={4.7cm 0 1.9cm 0},clip]{figures/ndcg_ratings_std.pdf} \\
+\end{tabular}
+}
+\caption{Clustering Figure \hl{TODO better description}: 
+\\(a) representative users sorted by number of ratings, (b) representative users sorted by average rating, (c) representative users sorted by rating deviation}
+\end{figure*}
+
+
 One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn
 Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
 
