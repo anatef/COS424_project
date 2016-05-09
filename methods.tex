@@ -3,44 +3,44 @@
 
 
 \subsection{Feature Extraction}
-In order to analyze the MovieLens dataset, we first extracted several features, for the movies and users seperately. 
+In order to analyze the MovieLens dataset, we first extracted several features, for the movies and users separately. 
 
-\textbf{Movies basic features} 
+\textbf{Basic Movie Features} 
 \begin{itemize}
-\item Genres binary vector representing all the genres included in the movie. Each movie follows the genre standard of IMDB (Internet Movie Database, www.imdb.com). Each movie belongs to a minimum of one genre and a maximum of five
+\item Binary genres vector representing all the genres included in the movie. Each movie follows the genre standard of IMDB (Internet Movie Database, www.imdb.com). Each movie is categorized to a minimum of one genre, and a maximum of five.
 \item Average rating by all users
-\item Number of ratings
+\item Overall number of ratings
 \item Ratings standard deviation
 \end{itemize}
 
-\textbf{Users basic features} 
+\textbf{Basic User Features} 
 \begin{itemize}
 \item Age
 \item Gender
 \item Number of ratings
 \item Occupation
 \item Average rating given by the user
-\item Number of ratings
+\item Overall number of ratings
 \item Ratings standard deviation
 \end{itemize}
 
-After the basic extraction of features, we further analyzed the existing features to create additional user features:
+After the basic feature extraction, we further analyzed the existing features to create additional user features:
 
-\textbf{Users genres preference}
+\textbf{User Genres Preference}
 
-To represent the user genre prefrence based on his past ratings, we created a score that captures the average rating of a user for each genre: 
-\begin{equation} score\_for\_movie\_genre(G_j) = \frac{\sum^5_{i=1}{rating_i\times number\_of\_movie\_rating_i}}{Total\_number\_of\_movies} 
+To represent the user genre prefrence based on past ratings, we created a score that captures the average rating of a user for each genre: 
+\begin{equation} score\_for\_movie\_genre(G_j) = \frac{\sum^5_{i=1}{i\times number\_of\_i\_movie\_ratings}}{Total\_number\_of\_ratings} 
 \end{equation}
 We created a vector of genres prefrences for each user as additional features.
 
 \textbf{User specific effect}
 
-As suggested by the winners of the \textit{Netflix Prize} in their paper~\cite{bell2007bellkor}, we created a feature that represnt the user tendency to rate below or above the expected rating. We calculated the average difference of the user ratings from each movie average rating by all the users.
+As suggested by the winners of the \textit{Netflix Prize} in their paper~\cite{bell2007bellkor}, we created a feature that represent the user tendency to rate below or above the expected rating. We calculated the average difference of the user ratings from each movie average rating by all the users.
 
 \subsection{Selecting representative test sets}
 The recommendation system is based on the scenario of a specific target user. The system will predict movies ratings for this user, and therefore the test dataset is built from the users perpective. We have decided to use our set of extracted features to choose users that will properly span the feature space, and thus be better representatives than complete random selection. 
 
-Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible. The representative users and their corresponding features are shown here in Table\ref{tab:rep_users}.
+Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible. The representative users and their corresponding features are shown here in Table~\ref{tab:rep_users}.
 
 \begin{table}
 \begin{center}
@@ -80,7 +80,7 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 
 \subsection{Clustering}
 
-\begin{figure*}[t]
+\begin{figure*}
 \begin{tabular}{ l l l}
   \hspace{2.0cm}(a) & \hspace{4.2cm}(b) & \hspace{4.2cm}(c) \\
 \end{tabular}\\
@@ -98,6 +98,7 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 }
 \caption{Clustering Figure \hl{TODO better description}: 
 \\(a) representative users sorted by number of ratings, (b) representative users sorted by average rating, (c) representative users sorted by rating deviation}
+\label{fig:ndcg}  
 \end{figure*}
 
 
@@ -106,17 +107,36 @@ Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we
 
 The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead.
 
-The predicted ratings are then beeing used to rank the list of movies in the test set, and we use Normalized discounted cumulative gain (NDCG) to measure the relevance of the recommended movies. The algorithm we used was implemented by Mathieu Blondel~\cite{letorMetrics}. We calculated NDCG@k for $k=\{5, 10, 15, 20\}$, since these numbers represent a reasonable length of movie recommendation list. Most users will find it difficult to pay attention to lists with too many items. We present the results in Figure\ref{} as the NDCG@k averaged on the 10-folds cross validation runs, for each user.
+The predicted ratings are then beeing used to rank the list of movies in the test set, and we use Normalized discounted cumulative gain (NDCG) to measure the relevance of the recommended movies. The algorithm we used was implemented by Mathieu Blondel~\cite{letorMetrics}. We calculated NDCG@k for $k=\{5, 10, 15, 20\}$, since these numbers represent a reasonable length of movie recommendation list. Most users will find it difficult to pay attention to lists with too many items. We present the results in Figure\ref{fig:ndcg} as the NDCG@k averaged on the 10-folds cross validation runs, for each user.
 
 
 \subsection{Cosine Similarity}
 
-\textbf{Users similarity}
-Another approach would be to predict by similarity to other users. For each of the inspected users, we will find the most similar users (e.g. using cosine similarity for ratings), and predict the best movies based on the preferences of the most similar users.
+\textbf{Rating Prediction Using User similarity}
+One approach to predict user ratings would be using the ratings of similar users. 
+Our metric for user similarity is the cosine similarity metric, since it is a convenient technique to correlate vectors based on the relation between their members.
+Feature-wise cosine similarity was calculated in the following manner. Given a feature vectors of two users $x$, and $y$: $v^x_{F}=\{\theta^x_{1},\theta^x_{2},...,\theta^x_{N}\}$,$v^y_{F}=\{\theta^y_{1},\theta^y_{2},...,\theta^y_{N}\}$
+We define the cosine similarity the following way
+\begin{equation}
+\footnotesize
+\text{cosine\_similarity}_{x,y} = \frac{<v^x_{F},v^y_{F}>}{\sqrt{<v^x_{F},v^x_{F}}> \cdot \sqrt{<v^y_{F},v^y_{F}}>}=\frac{\sum^N_{i=1}{\theta^x_i \cdot \theta^y_i}}{{\sqrt{\sum^N_{i=1}{(\theta^x_i)^2} }}\sqrt{\sum^N_{i=1}{(\theta^y_i)^2 }}}
+\label{eq:cosinesimilarity}
+\end{equation}
+
+For each of the inspected users, we rank the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity} similarity, based on the extracted features.
+We predict user's rating based on the average movie rating of the N most similar users.
+As we will show in \hl{Section} ~\ref{sec:results}, across all 10 tested users, we minimize the average RMSE 0.84 in rating misprediction, using the average of only the six most similar users (a fraction of only 0.1\% of overall users in the database).
 
 
 \subsection{Matrix Factorization}
 
-\textbf{Evaluation}
-We will performe 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. We will report the average RMSE and R$^2$ as well as the probability density function of the prediction errors.
+Matrix Factorization methods such as SVD and NMF can be useful in making structural predictions in databases that can be represented as sparse matrices.
+We describe the user ranking database as a sparse matrix of users and movies, the sparsity of the matrix formed by ratings is: $1000209/(3,900 \cdot 6,040)\approx0.04$
+We performed a 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. 
+In our first attempt, we empolyed different Matrix Factorization techniques to predict ratings using a binarized representation of ratings (e.g. did the user rate movie 1? 2? etc.)
+However, these methods produced high error rates, compared to the user similarity techniques since they do not user the user and movie features.
+Therefore, we changed our prediction target to the following binary question: "will the user like this movie?"
+And we reconstructed the ratings matrix as a binary matrix in which a Member[i,j] is set if the rating of user $i$ for movie $j$ is $\geq$ 4.
+As part of our literature survey, we encountered the work by Koren et al.~\cite{koren2009matrix}, in which they addressed the problem in a similar fashion.
+%We will report the average RMSE and R$^2$ as well as the probability density function of the prediction errors.
 
