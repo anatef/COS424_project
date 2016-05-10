@@ -4,17 +4,17 @@
 The Netflix revolution is alive and kicking. 
 In the past few years, the number of American Netflix subscribers has been on a constant climb, while average movie revenues has been dropping~\cite{MisixNetflix}.
 According to a recent study~\cite{VarietyNetflixBandwidth}, Netflix's Video-on-demand services account for roughly 36.5\% of overall internet bandwidth, and the bandwidth consumed by YouTube is 15.6\%; overall, more than half of the internet bandwidth is consumed by these two video streaming services.
-These statistics emphasize the importance of Netflix and YouTube on the wide-ranging internet footprint, and therefore these service always seek to improve the viewer's experience.
+These statistics emphasize the importance of Netflix, YouTube and other video services on the wide-ranging internet footprint; and therefore these services always seek to improve the viewer's experience.
 Another emerging trend of recent years is social networks such as Facebook; around 72\% of all adults are using Facebook at least once a month, and 91\% of all millennials~\cite{FacebookStats}. 
 Data from social networks is often used to create personalized services~\cite{carmel2009personalized}, and we therefore speculate that on-demand services and social network services are likely to collaborate in the future to enhance users' experience by suggesting highly-personalized content.
 
 In our project, \textit{SocialFlix!}, we attempt to add a new social aspect to online Video-On-Demand services. 
 We wish to improve the users viewing experiences and suggest them movies that they have not yet seen, but are likely to be well accepted.
-We analyzed the "MovieLens"~\cite{GroupLens} dataset, which describes 5-star ratings and free-text tagging activity from MovieLens website~\cite{MovieLens}, an online movie recommendation service. It contains 1,000,209 anonymous ratings of approximately 3,900 movies made by 6,040 MovieLens users who joined MovieLens in 2000. Each user in the dataset has at least 20 ratings. 
+We analyzed the "MovieLens"~\cite{GroupLens} dataset, which describes 5-star ratings from MovieLens website~\cite{MovieLens}, an online movie recommendation service. It contains 1,000,209 anonymous ratings of approximately 3,900 movies made by 6,040 MovieLens users who joined MovieLens in 2000. Each user in the dataset has at least 20 ratings. 
 We used a process of collaborative filtering involving matrix factorization methods, user clustering, and user cosine similarity to explore different ways to improve user experience by predicting user movie interactions. 
 Any of the predicted techniques can be integrated in a movie recommender system that suggests a ranked movie list to the user. 
 The ranked list would be based on predicting movies ratings, by incorporating the user past ratings, as well as all the other users past ratings and characterizing information about the users and the movies. 
 
 More specifically, we show that by using cosine similarity for accurate rating prediction we achieved rating predictions with RMSE rates of 0.84. 
-For user movie recommendation lists, we used K-means clustering, and measured the results using the NDCG@@k score, we show that such a clustering scheme achieves an NDCG@k score of ranging from 0.38 to a maximal score of 0.93.
-Finally, we employed matrix factorization techniques to predict whether or not a user will like specific movies; we show that using sigular value decomposition (SVD), we achieve an F1 score of 0.66, averge precision rate of 0.78, and ROC curve AUC of 0.72.
+For user movie recommendation lists, we used K-means clustering, and measured the results using the NDCG@@k score, we show that such a clustering scheme achieves an average NDCG@k score higher than 0.7 for all the tested k.
+Finally, we employed matrix factorization techniques to predict whether or not a user will like specific movies; we show that using singular value decomposition (SVD), we achieve an F1 score of 0.66, averge precision rate of 0.78, and ROC curve AUC of 0.72.

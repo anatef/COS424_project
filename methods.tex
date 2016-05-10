@@ -11,7 +11,7 @@
 \end{figure*}
 
 
-We now go over the various techniques we employed for the movie dataset analysis and for the purpose of predicting recommended movies.
+We now go over the various techniques we employed for the movie dataset analysis for the purpose of predicting recommended movies.
 Figure~\ref{fig:methods_pipeline} outlines the general prediction flow and techniques we used in our work.
 
 
@@ -71,7 +71,6 @@ In order to analyze the MovieLens dataset, we first extracted several features, 
 \begin{itemize}
 \item Age
 \item Gender
-\item Number of ratings
 \item Occupation
 \item Average rating given by the user
 \item Overall number of ratings
@@ -82,7 +81,7 @@ After the basic feature extraction, we further analyzed the existing features to
 
 \textbf{User Genres Preference}
 
-To represent the user genre prefrence based on past ratings, we created a score that captures the average rating of a user for each genre: 
+To represent the user genre preference based on past ratings, we created a score that captures the average rating of a user for each genre: 
 \begin{equation} score\_for\_movie\_genre(G_j) = \frac{\sum^5_{i=1}{i\times number\_of\_i\_movie\_ratings}}{Total\_number\_of\_ratings} 
 \end{equation}
 We created a vector of genres prefrences for each user as additional features.
@@ -92,9 +91,9 @@ We created a vector of genres prefrences for each user as additional features.
 As suggested by the winners of the \textit{Netflix Prize} in their paper~\cite{bell2007bellkor}, we created a feature that represent the user tendency to rate below or above the expected rating. We calculated the average difference of the user ratings from each movie average rating by all the users.
 
 \subsection{Selecting representative test sets}
-The recommendation system is based on the scenario of a specific target user. The system will predict movies ratings for this user, and therefore the test dataset is built from the users perpective. We have decided to use our set of extracted features to choose users that will properly span the feature space, and thus be better representatives than complete random selection. 
+The recommendation system is based on the scenario of a specific target user. The system will predict movies ratings for this user, and therefore the test dataset is built from the users perspective. We have decided to use our set of extracted features to choose users that will properly span the feature space, and thus be better representatives than a complete random selection. 
 
-Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible. The representative users and their corresponding features are shown here in Table~\ref{tab:rep_users}.
+Using the abovementioned set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with being computationally feasible. The representative users and their corresponding features are shown here in Table~\ref{tab:rep_users}.
 
 
 \subsection{Clustering}
@@ -102,7 +101,7 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 
 One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
 
-The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead. The predicted ratings are then beeing used to rank the list of movies in the test set.
+The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead. The predicted ratings are then being used to rank the list of movies in the test set, in order to provide a movie recommendation list of a certain length.
 
 \subsection{Cosine Similarity}
 
@@ -139,7 +138,7 @@ We define the cosine similarity in the following way
 \end{equation}
 
 We did the same 10-folds cross-validation we used for the k-means clustring, for the 10 representative users, with the same distribution to train and test sets in each iteration. For each of the inspected users, we rank all the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity}, based on the extracted features of the training set.
-We predict the user rating for a certain movie based on the average movie rating of the N most similar users, who have rated the movie.
+We predict the user rating for a certain movie based on the average movie rating of the N most similar users, who have rated the movie. We further explored different values for N, and elaborate more on this in Section~\ref{sec:results}.
 
 \begin{figure}
 \center
@@ -157,8 +156,8 @@ Matrix Factorization methods can be useful in making predictions about the topol
 We describe the user rankings database as a sparse matrix of users and movies, the sparsity of the matrix formed by ratings is: $1000209/(3,900 \cdot 6,040)\approx0.04$
 We used the SVD and NMF algorithms, as implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}.
 
-We performed a 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. 
-In our first attempt, we tried to predict the actual ratings all the ratings in the training set. However, these methods produced high error rates, compared to the user similarity techniques, since they do not use the user and movie extracted features.
+We performed a 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurements from the 10 runs. 
+In our first attempt, we tried to predict the actual ratings using all the ratings in the training set. However, these methods produced high error rates, compared to the user similarity techniques, since they do not use the user and movie extracted features.
 Therefore, we changed our prediction target to the following binary question: "will the user like this movie?"
 And we reconstructed the ratings matrix as a binary matrix in which a Member[i,j] is set if the rating of user $i$ for movie $j$ is $\geq$ 4. As part of our literature survey, we encountered the work by Koren et al.~\cite{koren2009matrix}, in which they addressed the problem in a similar fashion of binarizing the ratings of movies to 4 and above. In order to choose the number of components, for each training set we preformed cross-validation within, and treated the components number as a hyperparameter. We chose the number of components that minimized the RMSE in our grid search.
 
