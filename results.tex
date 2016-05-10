@@ -27,7 +27,7 @@
 
 \begin{figure}
 \center
-\resizebox{5in}{!}{
+\resizebox{4in}{!}{
 \includegraphics{figures/user_similarity.pdf} 
 }
 \caption{User Similarity Rating Prediction Results (RMSE vs. \# similar users)}
@@ -37,7 +37,7 @@
 
 
 
-\begin{figure*}
+\begin{figure*}[t]
 \begin{tabular}{ l l}
   \hspace{3.5cm}(a) & \hspace{7cm}(b)\\
 \end{tabular}\\
@@ -59,8 +59,8 @@ We present the results of ratings prediction using cosine similarity in the form
 The RMSE is plotted as a function of the number of similar users we have taken into account in the prediction. 
 We can see in Figure~\ref{fig:user_similarity} that the RMSE decreases as additional similar users are added, reaching a minimum of 0.84.
 Furthermore, we see that beyond the point of six users, the average RMSE curve plateaus, and the RMSE improvement curve is roughly zero.
-\hl{TODO: do we want to keep this paragraph? As we ran the experiments for higher number of similar users, we saw that beyond roughly 64 similar users the addition of users had an adverse effect on prediction, as RMSE increased for larger numbers of similar users.
-We did not extend our figure beyond 16 users, for esthetic reasons.} 
+As we ran the experiments for higher number of similar users, we saw that beyond roughly 64 similar users the addition of users had an adverse effect on prediction, as RMSE increased for larger numbers of similar users.
+We did not extend our figure beyond 16 users, for esthetic reasons. 
 
 The results of ratings prediction using K-means clustering are presented in the form of NDCG@k averaged on the 10-folds cross validation runs, for each of the representative 10 users individually. For two users we have less than 100 ratings so each cross-validation run resulted in less than 10 ranked reviews; therefore, we report only NDCG@k, k=5 for those users. In Figure\ref{fig:ndcg} the NDCG@k is plotted for each user, when the users are sorted according to three different features: \blackone The number of user ratings \blacktwo The average of user ratings \blackthree The standard deviation of the user ratings. \hl{TODO: figure description}
 
