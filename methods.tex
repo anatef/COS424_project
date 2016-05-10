@@ -81,38 +81,33 @@ Using the abovemention set of features, we used the K-means algorithm implemente
 \subsection{Clustering}
 
 
-One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn
-Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
+One of the standard approaches to collaborative filtering is to use neighborhood models. We used user-user approach which intend to find a set of similar users and base the prediction on their recorded ratings. To cluster users we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. To determine K for the algorithm we chose to rely on a rule of thumb described in the work of Kodinariya and Makwana~\cite{kodinariya2013review}: $K\approx\sqrt{\frac{n}{2}}$. For $n=6,040$, K is approximately 50, so this is the number of clusters we used.
 
 The prediction using clustering was created for each of the representative users individually. Using 10-fold cross-validation, we randomly chose to remove 10\% of the user ratings, and use all the rest of the dataset as training set, including all the other users and 90\% of the user ratings. We constructed the K-means clustering from the training set. Then, for each movie in the test set, we predicted the rating as the average of ratings for this movie by other users from the same cluster, and added the \textit{user specific effect} that was mentioned earlier as one of the users features. If none of the users in the cluster had rated the movie, then the rating was based on the average of all the users in the training set instead. The predicted ratings are then beeing used to rank the list of movies in the test set.
 
 \subsection{Cosine Similarity}
 
-\textbf{Rating Prediction Using User similarity}
-One approach to predict user ratings would be using the ratings of similar users. 
-Our metric for user similarity is the cosine similarity metric, since it is a convenient technique to correlate vectors based on the relation between their members.
+A second metric we used to find a set of similar users for ratings prediction, is the cosine similarity metric, since it is a convenient technique to correlate vectors based on the relation between their members.
 Feature-wise cosine similarity was calculated in the following manner. Given a feature vectors of two users $x$, and $y$: $v^x_{F}=\{\theta^x_{1},\theta^x_{2},...,\theta^x_{N}\}$,$v^y_{F}=\{\theta^y_{1},\theta^y_{2},...,\theta^y_{N}\}$
-We define the cosine similarity the following way
+We define the cosine similarity in the following way
 \begin{equation}
 \footnotesize
 \text{cosine\_similarity}_{x,y} = \frac{<v^x_{F},v^y_{F}>}{\sqrt{<v^x_{F},v^x_{F}}> \cdot \sqrt{<v^y_{F},v^y_{F}}>}=\frac{\sum^N_{i=1}{\theta^x_i \cdot \theta^y_i}}{{\sqrt{\sum^N_{i=1}{(\theta^x_i)^2} }}\sqrt{\sum^N_{i=1}{(\theta^y_i)^2 }}}
 \label{eq:cosinesimilarity}
 \end{equation}
 
-For each of the inspected users, we rank the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity} similarity, based on the extracted features.
-We predict user's rating based on the average movie rating of the N most similar users.
-As we will show in~\ref{sec:results}, across all 10 tested users, we minimize the average RMSE 0.84 in rating misprediction, using the average of only the six most similar users (a fraction of only 0.1\% of overall users in the database).
+We did the same 10-folds cross-validation we used for the k-means clustring, for the 10 representative users, with the same distribution to train and test sets in each iteration. For each of the inspected users, we rank all the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity}, based on the extracted features of the training set.
+We predict the user rating for a certain movie based on the average movie rating of the N most similar users, who have rated the movie.
 
 
 \subsection{Matrix Factorization}
 
-Matrix Factorization methods such as SVD and NMF can be useful in making structural predictions in databases that can be represented as sparse matrices.
-We describe the user ranking database as a sparse matrix of users and movies, the sparsity of the matrix formed by ratings is: $1000209/(3,900 \cdot 6,040)\approx0.04$
+Matrix Factorization methods can be useful in making predictions about the topology of the underlying graph of datasets, that can be represented as sparse matrices.
+We describe the user rankings database as a sparse matrix of users and movies, the sparsity of the matrix formed by ratings is: $1000209/(3,900 \cdot 6,040)\approx0.04$
+We used the SVD and NMF algorithms, as implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}.
+
 We performed a 10-fold cross-validation to asses our predictions, and calculate the average of the accumulated measurments from the 10 runs. 
-In our first attempt, we empolyed different Matrix Factorization techniques to predict ratings using a binarized representation of ratings (e.g. did the user rate movie 1? 2? etc.)
-However, these methods produced high error rates, compared to the user similarity techniques since they do not user the user and movie features.
+In our first attempt, we tried to predict the actual ratings all the ratings in the training set. However, these methods produced high error rates, compared to the user similarity techniques, since they do not use the user and movie extracted features.
 Therefore, we changed our prediction target to the following binary question: "will the user like this movie?"
-And we reconstructed the ratings matrix as a binary matrix in which a Member[i,j] is set if the rating of user $i$ for movie $j$ is $\geq$ 4.
-As part of our literature survey, we encountered the work by Koren et al.~\cite{koren2009matrix}, in which they addressed the problem in a similar fashion.
-%We will report the average RMSE and R$^2$ as well as the probability density function of the prediction errors.
+And we reconstructed the ratings matrix as a binary matrix in which a Member[i,j] is set if the rating of user $i$ for movie $j$ is $\geq$ 4. As part of our literature survey, we encountered the work by Koren et al.~\cite{koren2009matrix}, in which they addressed the problem in a similar fashion of binarizing the ratings of movies to 4 and above. In order to choose the number of components, for each training set we preformed cross-validation within, and treated the components number as a hyperparameter. We chose the number of components that minimized the RMSE in our grid search.
 
