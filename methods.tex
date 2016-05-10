@@ -16,6 +16,68 @@ Figure~\ref{fig:methods_pipeline} outlines the general prediction flow and techn
 
 
 \subsection{Feature Extraction}
+
+\begin{table}
+\begin{center}
+\resizebox{5.7in}{!}{
+\begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+%\textbf{userId} & \textbf{gender} & \textbf{age} & \textbf{occupation} & \textbf{Mystery} & \textbf{Sci-Fi} & \textbf{Crime} & \textbf{Drama} & \textbf{Animation} & \textbf{IMAX} & \textbf{Action} & \textbf{Comedy} & \textbf{Documentary} & \textbf{War} & \textbf{Romance} & \textbf{Horror} & \textbf{Film-Noir} & \textbf{Musical} & \textbf{Fantasy} & \textbf{Adventure} & \textbf{Children} & \textbf{Thriller} & \textbf{Western} & \textbf{rate\_num} & \textbf{rate\_avg} & \textbf{rate\_std} & \textbf{avg\_score\_diff} \\
+\textbf{userId} & \textbf{G} & \textbf{A} & \textbf{O} & \textbf{My} & \textbf{SF} & \textbf{Cr} & \textbf{Dr} & \textbf{An} & \textbf{I} & \textbf{Ac} & \textbf{Co} & \textbf{Do} & \textbf{W} & \textbf{Ro} & \textbf{Ho} & \textbf{FN} & \textbf{Mul} & \textbf{Fa} & \textbf{Ad} & \textbf{Ch} & \textbf{Th} & \textbf{We} & \textbf{rate\_num} & \textbf{rate\_avg} & \textbf{rate\_std} & \textbf{avg\_score\_diff} \\
+\hline
+457 & M & 18 & 4 & 38 & 121 & 105 & 409 & 8 & 0 & 199 & 254 & 10 & 100 & 90 & 76 & 13 & 7 & 27 & 73 & 5 & 196 & 4 & 237 & 3.71308 & 0.905887 & -0.021912\\
+\hline
+2768 & M & 25 & 17 & 14 & 46 & 38 & 140 & 13 & 0 & 79 & 88 & 3 & 37 & 27 & 8 & 12 & 8 & 9 & 18 & 12 & 74 & 8 & 80 & 4.0375 & 0.797555 & 0.108199\\
+\hline
+1980 & M & 35 & 7 & 170 & 351 & 275 & 1977 & 130 & 0 & 631 & 1733 & 45 & 206 & 797 & 253 & 60 & 177 & 122 & 388 & 288 & 590 & 65 & 1260 & 3.48254 & 1.026094 & 0.019891\\
+\hline
+402 & M & 25 & 11 & 8 & 61 & 178 & 372 & 9 & 0 & 140 & 734 & 0 & 53 & 187 & 34 & 8 & 9 & 27 & 76 & 21 & 96 & 19 & 284 & 3.591549 & 0.873353 & 0.023182\\
+\hline
+4126 & M & 25 & 17 & 32 & 224 & 80 & 300 & 122 & 0 & 456 & 416 & 0 & 69 & 224 & 112 & 4 & 63 & 91 & 253 & 191 & 282 & 37 & 358 & 3.513966 & 0.902248 & 0.08732\\
+\hline
+3418 & F & 18 & 3 & 38 & 64 & 66 & 322 & 51 & 0 & 86 & 313 & 10 & 67 & 172 & 14 & 20 & 90 & 9 & 28 & 92 & 121 & 12 & 211 & 3.791469 & 1.221499 & 0.130147\\
+\hline
+112 & M & 18 & 6 & 87 & 291 & 139 & 817 & 265 & 0 & 571 & 642 & 11 & 117 & 315 & 231 & 32 & 148 & 83 & 311 & 308 & 481 & 23 & 679 & 3.441826 & 1.240844 & 0.0129\\
+\hline
+3119 & M & 45 & 1 & 4 & 166 & 6 & 46 & 4 & 0 & 191 & 70 & 0 & 36 & 15 & 11 & 3 & 5 & 50 & 126 & 35 & 64 & 15 & 90 & 3.377778 & 1.269976 & -0.259006\\
+\hline
+1737 & M & 35 & 20 & 93 & 465 & 173 & 585 & 85 & 0 & 884 & 967 & 3 & 127 & 341 & 363 & 15 & 48 & 82 & 413 & 154 & 666 & 26 & 775 & 3.410323 & 0.984733 & 0.329893\\
+\hline
+1322 & M & 56 & 0 & 111 & 130 & 81 & 587 & 86 & 0 & 192 & 743 & 5 & 132 & 274 & 16 & 35 & 260 & 49 & 236 & 143 & 88 & 89 & 384 & 4.117188 & 0.803194 & 0.3565\\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Representative Users and Features (G=Gender, A=Age, O=Occupation, My=Mystery, SF=Sci-Fi, Cr=Crime, Dr=Drama, An=Animation, I=IMAX, Ac=Action, Co=Comedy, Do=Documentary, W=War, R=Romance, H=Horror, FN=Film-Noir, Mu=Musical, Fa=Fantasy, Ad=Adventure, Ch=Children, Th=Thriller, We=Western)}
+
+\label{tab:rep_users}
+\end{table}
+
+
+
+\begin{figure}
+\begin{tabular}{ l l l}
+  \hspace{2.0cm}(a) & \hspace{4.2cm}(b) & \hspace{4.2cm}(c) \\
+\end{tabular}\\
+\resizebox{6in}{!}{
+  \begin{tabular}{ c c c}
+  \hspace{-2.8cm}
+  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_num.pdf} 
+  &  
+  \hspace{-2.5cm}
+  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_avg.pdf} 
+  &
+  \hspace{-2.5cm}
+  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_std.pdf} \\
+\end{tabular}
+}
+\caption{Ranking movies using K-means clustering: 
+\\The average NDCG@k for k=\{5, 10, 15, 20\} is shown in the bars, and the corresponding standard deviation is shown as error bars. (a) representative users sorted by number of ratings, (b) representative users sorted by average rating, (c) representative users sorted by rating standard deviation. }
+\label{fig:ndcg}  
+\end{figure}
+
+
+
 In order to analyze the MovieLens dataset, we first extracted several features, for the movies and users separately. 
 
 \textbf{Basic Movie Features} 
@@ -55,41 +117,6 @@ The recommendation system is based on the scenario of a specific target user. Th
 
 Using the abovemention set of features, we used the K-means algorithm implemented in the SciKitLearn Python libraries~\cite{pedregosa2011scikit}. By setting K=10, the users were split into k groups, from which we randomly chose 10 users, one from each group. These users will remain constant throughout our analysis, and we will try to predict the ratings for each user individually. This number of ratings is sufficient to statistically asses our methods, together with beeing computationally feasible. The representative users and their corresponding features are shown here in Table~\ref{tab:rep_users}.
 
-\begin{table}
-\begin{center}
-\resizebox{5.7in}{!}{
-\begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-\hline
-%\textbf{userId} & \textbf{gender} & \textbf{age} & \textbf{occupation} & \textbf{Mystery} & \textbf{Sci-Fi} & \textbf{Crime} & \textbf{Drama} & \textbf{Animation} & \textbf{IMAX} & \textbf{Action} & \textbf{Comedy} & \textbf{Documentary} & \textbf{War} & \textbf{Romance} & \textbf{Horror} & \textbf{Film-Noir} & \textbf{Musical} & \textbf{Fantasy} & \textbf{Adventure} & \textbf{Children} & \textbf{Thriller} & \textbf{Western} & \textbf{rate\_num} & \textbf{rate\_avg} & \textbf{rate\_std} & \textbf{avg\_score\_diff} \\
-\textbf{userId} & \textbf{G} & \textbf{A} & \textbf{O} & \textbf{My} & \textbf{SF} & \textbf{Cr} & \textbf{Dr} & \textbf{An} & \textbf{I} & \textbf{Ac} & \textbf{Co} & \textbf{Do} & \textbf{W} & \textbf{Ro} & \textbf{Ho} & \textbf{FN} & \textbf{Mul} & \textbf{Fa} & \textbf{Ad} & \textbf{Ch} & \textbf{Th} & \textbf{We} & \textbf{rate\_num} & \textbf{rate\_avg} & \textbf{rate\_std} & \textbf{avg\_score\_diff} \\
-\hline
-457 & M & 18 & 4 & 38 & 121 & 105 & 409 & 8 & 0 & 199 & 254 & 10 & 100 & 90 & 76 & 13 & 7 & 27 & 73 & 5 & 196 & 4 & 237 & 3.71308 & 0.905887 & -0.021912\\
-\hline
-2768 & M & 25 & 17 & 14 & 46 & 38 & 140 & 13 & 0 & 79 & 88 & 3 & 37 & 27 & 8 & 12 & 8 & 9 & 18 & 12 & 74 & 8 & 80 & 4.0375 & 0.797555 & 0.108199\\
-\hline
-1980 & M & 35 & 7 & 170 & 351 & 275 & 1977 & 130 & 0 & 631 & 1733 & 45 & 206 & 797 & 253 & 60 & 177 & 122 & 388 & 288 & 590 & 65 & 1260 & 3.48254 & 1.026094 & 0.019891\\
-\hline
-402 & M & 25 & 11 & 8 & 61 & 178 & 372 & 9 & 0 & 140 & 734 & 0 & 53 & 187 & 34 & 8 & 9 & 27 & 76 & 21 & 96 & 19 & 284 & 3.591549 & 0.873353 & 0.023182\\
-\hline
-4126 & M & 25 & 17 & 32 & 224 & 80 & 300 & 122 & 0 & 456 & 416 & 0 & 69 & 224 & 112 & 4 & 63 & 91 & 253 & 191 & 282 & 37 & 358 & 3.513966 & 0.902248 & 0.08732\\
-\hline
-3418 & F & 18 & 3 & 38 & 64 & 66 & 322 & 51 & 0 & 86 & 313 & 10 & 67 & 172 & 14 & 20 & 90 & 9 & 28 & 92 & 121 & 12 & 211 & 3.791469 & 1.221499 & 0.130147\\
-\hline
-112 & M & 18 & 6 & 87 & 291 & 139 & 817 & 265 & 0 & 571 & 642 & 11 & 117 & 315 & 231 & 32 & 148 & 83 & 311 & 308 & 481 & 23 & 679 & 3.441826 & 1.240844 & 0.0129\\
-\hline
-3119 & M & 45 & 1 & 4 & 166 & 6 & 46 & 4 & 0 & 191 & 70 & 0 & 36 & 15 & 11 & 3 & 5 & 50 & 126 & 35 & 64 & 15 & 90 & 3.377778 & 1.269976 & -0.259006\\
-\hline
-1737 & M & 35 & 20 & 93 & 465 & 173 & 585 & 85 & 0 & 884 & 967 & 3 & 127 & 341 & 363 & 15 & 48 & 82 & 413 & 154 & 666 & 26 & 775 & 3.410323 & 0.984733 & 0.329893\\
-\hline
-1322 & M & 56 & 0 & 111 & 130 & 81 & 587 & 86 & 0 & 192 & 743 & 5 & 132 & 274 & 16 & 35 & 260 & 49 & 236 & 143 & 88 & 89 & 384 & 4.117188 & 0.803194 & 0.3565\\
-\hline
-\end{tabular}
-}
-\end{center}
-\caption{Representative Users and Features (G=Gender, A=Age, O=Occupation, My=Mystery, SF=Sci-Fi, Cr=Crime, Dr=Drama, An=Animation, I=IMAX, Ac=Action, Co=Comedy, Do=Documentary, W=War, R=Romance, H=Horror, FN=Film-Noir, Mu=Musical, Fa=Fantasy, Ad=Adventure, Ch=Children, Th=Thriller, We=Western)}
-
-\label{tab:rep_users}
-\end{table}
 
 \subsection{Clustering}
 
@@ -111,6 +138,15 @@ We define the cosine similarity in the following way
 
 We did the same 10-folds cross-validation we used for the k-means clustring, for the 10 representative users, with the same distribution to train and test sets in each iteration. For each of the inspected users, we rank all the users according to the cosine similarity rate defined in Equation~\ref{eq:cosinesimilarity}, based on the extracted features of the training set.
 We predict the user rating for a certain movie based on the average movie rating of the N most similar users, who have rated the movie.
+
+\begin{figure}
+\center
+\resizebox{4in}{!}{
+\includegraphics{figures/user_similarity.pdf} 
+}
+\caption{User Similarity Rating Prediction Results (RMSE vs. \# similar users)}
+\label{fig:user_similarity}  
+\end{figure}
 
 
 \subsection{Matrix Factorization}

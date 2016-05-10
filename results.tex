@@ -3,41 +3,8 @@
 
 
 
+
 \begin{figure}
-\center
-\resizebox{4in}{!}{
-\includegraphics{figures/user_similarity.pdf} 
-}
-\caption{User Similarity Rating Prediction Results (RMSE vs. \# similar users)}
-\label{fig:user_similarity}  
-\end{figure}
-
-
-
-\begin{figure*}
-\begin{tabular}{ l l l}
-  \hspace{2.0cm}(a) & \hspace{4.2cm}(b) & \hspace{4.2cm}(c) \\
-\end{tabular}\\
-\resizebox{6in}{!}{
-  \begin{tabular}{ c c c}
-  \hspace{-2.8cm}
-  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_num.pdf} 
-  &  
-  \hspace{-2.5cm}
-  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_avg.pdf} 
-  &
-  \hspace{-2.5cm}
-  \includegraphics[trim={3cm 0 0 0},clip]{figures/ndcg_ratings_std.pdf} \\
-\end{tabular}
-}
-\caption{Ranking movies using K-means clustering: 
-\\The average NDCG@k for k=\{5, 10, 15, 20\} is shown in the bars, and the corresponding standard deviation is shown as error bars. (a) representative users sorted by number of ratings, (b) representative users sorted by average rating, (c) representative users sorted by rating standard deviation. }
-\label{fig:ndcg}  
-\end{figure*}
-
-
-
-\begin{figure*}[t]
 \begin{tabular}{ l l}
   \hspace{3.5cm}(a) & \hspace{7cm}(b)\\
 \end{tabular}\\
@@ -50,7 +17,7 @@
 }
 \caption{Matrix Factorization Results: (a) ROC Curve, (b) Precision Recall Curve}
 \label{fig:matrix_curves}  
-\end{figure*}
+\end{figure}
 
 
 To evaluate our prediction performance for the neighbourhood models, we used two accepted metrics: one is RMSE, which was used in the \textit{Netflix Prize} competition, and the the winner, Yehuda Koren, demonstrated later in a different paper that RMSE is a good measurment for recommender systems providing "top K recommendations"~\cite{koren2008factorization}. They witnessed that small improvements in the RMSE translated into significant improvments in the quality of the top K items in the recommended list. The second metric is called Normalized discounted cumulative gain (NDCG), and it is used in many recommendation system studies to score the relevance of the top K items in the list. This metric allows the relevance scores of the items to be real numbers, so we have used our predicted ratings to sort the recommended movie list. The algorithm we used was implemented by Mathieu Blondel~\cite{letorMetrics}. We calculated NDCG@k for $k=\{5, 10, 15, 20\}$, since these numbers represent a reasonable length of movie recommendation list.
